@@ -21,7 +21,9 @@ namespace MVC_App.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            //return View();
+            return RedirectToRoute("default", new { controller = "Home", action = "Area", height = 2, altitude = 20 });
+            //return RedirectToAction("Area", "Home", new { altitude = 10, height = 3 });
         }
 
         public IActionResult Privacy()
@@ -56,10 +58,10 @@ namespace MVC_App.Controllers
         {
             return $"Площадь треугольника с основанием {geometry.Altitude} и высотой {geometry.Height} равна {geometry.GetArea()}";
         }
-        public string Area(int altitude, int height)
+        public IActionResult Area(int altitude, int height)
         {
-            double square = altitude * height / 2;
-            return $"Площадь треугольника с основанием {altitude} и высотой {height} равна {square}";
+            double area = altitude * height / 2;
+            return Content($"Площадь треугольника с основанием {altitude} и высотой {height} равна {area}");
         }
         public string Sum(int[] nums)
         {
