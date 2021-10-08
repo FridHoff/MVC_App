@@ -76,6 +76,18 @@ namespace MVC_App.Controllers
             return new HtmlResult("<h2>Привет ASP.NET 5</h2>");
         }
         #endregion
+        #region 9.4
+        public JsonResult GetName()
+        {
+            string name = "Tom";
+            return Json(name);
+        }
+        public JsonResult GetUser()
+        {
+            User user = new User { Name = "Tom", Age = 28 };
+            return Json(user);
+        }
+        #endregion
     }
     public class Geometry
     {
@@ -86,5 +98,10 @@ namespace MVC_App.Controllers
         {
             return Altitude * Height / 2;
         }
+    }
+    public class User
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
     }
 }
