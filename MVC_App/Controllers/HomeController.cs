@@ -12,14 +12,14 @@ using System.IO;
 
 namespace MVC_App.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : HelloBaseController
     {
         private readonly ILogger<HomeController> _logger;
 
-        //public HomeController(ILogger<HomeController> logger)
-        //{
-        //    _logger = logger;
-        //}
+        public HomeController(ILogger<HomeController> logger)
+        {
+            _logger = logger;
+        }
 
         public IActionResult Index()
         {
@@ -107,10 +107,10 @@ namespace MVC_App.Controllers
         #endregion
         #region 9.7
         private readonly IWebHostEnvironment _appEnvironment;
-        public HomeController(IWebHostEnvironment appEnvironment)
-        {
-            _appEnvironment = appEnvironment;
-        }
+        //public HomeController(IWebHostEnvironment appEnvironment)
+        //{
+        //    _appEnvironment = appEnvironment;
+        //}
         public IActionResult GetFile()
         {
             // Путь к файлу
