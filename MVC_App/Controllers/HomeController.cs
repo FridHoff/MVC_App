@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MVC_App.Models;
 using ControllersApp.Util;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace MVC_App.Controllers
 {
@@ -14,17 +16,17 @@ namespace MVC_App.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
-        //public IActionResult Index()
+        //public HomeController(ILogger<HomeController> logger)
         //{
-        //    return View();
-        //    //return RedirectToRoute("default", new { controller = "Home", action = "Area", height = 2, altitude = 20 });
-        //    //return RedirectToAction("Area", "Home", new { altitude = 10, height = 3 });
+        //    _logger = logger;
         //}
+
+        public IActionResult Index()
+        {
+            return View();
+            //return RedirectToRoute("default", new { controller = "Home", action = "Area", height = 2, altitude = 20 });
+            //return RedirectToAction("Area", "Home", new { altitude = 10, height = 3 });
+        }
 
         public IActionResult Privacy()
         {
@@ -91,16 +93,54 @@ namespace MVC_App.Controllers
         }
         #endregion
         #region 9.6
-        public IActionResult Index(string str)
+        //public IActionResult Index(string str)
+        //{
+        //    int num;
+        //    if (String.IsNullOrEmpty(str))
+        //        return BadRequest("Не указаны параметры запроса");
+        //    if (!Int32.TryParse(str, out num))
+        //        return BadRequest("Указаны некорректные параметры запроса");
+        //    else if (num < 18)
+        //        return Unauthorized(new Error { Message = "параметр age содержит недействительное значение" });
+        //    return View();
+        //}
+        #endregion
+        #region 9.7
+        private readonly IWebHostEnvironment _appEnvironment;
+        public HomeController(IWebHostEnvironment appEnvironment)
         {
-            int num;
-            if (String.IsNullOrEmpty(str))
-                return BadRequest("Не указаны параметры запроса");
-            if (!Int32.TryParse(str, out num))
-                return BadRequest("Указаны некорректные параметры запроса");
-            else if (num < 18)
-                return Unauthorized(new Error { Message = "параметр age содержит недействительное значение" });
-            return View();
+            _appEnvironment = appEnvironment;
+        }
+        public IActionResult GetFile()
+        {
+            // Путь к файлу
+            string file_path = Path.Combine(_appEnvironment.ContentRootPath, "Files/book.pdf");
+            // Тип файла - content-type
+            string file_type = "application/pdf";
+            // Имя файла - необязательно
+            string file_name = "book.pdf";
+            return PhysicalFile(file_path, file_type, file_name);
+        }
+        public FileResult GetBytes()
+        {
+            string path = Path.Combine(_appEnvironment.ContentRootPath, "Files/book.pdf");
+            byte[] mas = System.IO.File.ReadAllBytes(path);
+            string file_type = "application/pdf";
+            string file_name = "book2.pdf";
+            return File(mas, file_type, file_name);
+        }
+        public FileResult GetStream()
+        {
+            string path = Path.Combine(_appEnvironment.ContentRootPath, "Files/book.pdf");
+            FileStream fs = new FileStream(path, FileMode.Open);
+            string file_type = "application/pdf";
+            string file_name = "book3.pdf";
+            return File(fs, file_type, file_name);
+        }
+        public VirtualFileResult GetVirtualFile()
+        {
+            var filepath = Path.Combine("~/Files", "hello.txt");
+            return File(filepath, "text/plain", "hello.txt");
         }
         #endregion
     }
