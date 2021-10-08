@@ -9,6 +9,8 @@ using MVC_App.Models;
 using ControllersApp.Util;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace MVC_App.Controllers
 {
@@ -21,12 +23,12 @@ namespace MVC_App.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-            //return RedirectToRoute("default", new { controller = "Home", action = "Area", height = 2, altitude = 20 });
-            //return RedirectToAction("Area", "Home", new { altitude = 10, height = 3 });
-        }
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //    //return RedirectToRoute("default", new { controller = "Home", action = "Area", height = 2, altitude = 20 });
+        //    //return RedirectToAction("Area", "Home", new { altitude = 10, height = 3 });
+        //}
 
         public IActionResult Privacy()
         {
@@ -141,6 +143,17 @@ namespace MVC_App.Controllers
         {
             var filepath = Path.Combine("~/Files", "hello.txt");
             return File(filepath, "text/plain", "hello.txt");
+        }
+        #endregion
+        #region 9.9
+        public void Index()
+        {
+            string table = "";
+            foreach (var header in Request.Headers)
+            {
+                table += $"<tr><td>{header.Key}</td><td>{header.Value}</td></tr>";
+            }
+            Response.WriteAsync($"<table>{table}</table>");
         }
         #endregion
     }
