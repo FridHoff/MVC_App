@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MVC_App.Models;
+using ControllersApp.Util;
 
 namespace MVC_App.Controllers
 {
@@ -33,11 +34,14 @@ namespace MVC_App.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        #region 9.1
         [ActionName("Welcome")]
         public string Hello()
         {
             return "Hello ASP.NET";
         }
+        #endregion
+        #region 9.2
         public string Hello(int id)
         {
             return $"id= {id}";
@@ -65,6 +69,13 @@ namespace MVC_App.Controllers
         {
             return $"Сумма площадей равна {geoms.Sum(g => g.GetArea())}";
         }
+        #endregion
+        #region 9.3
+        public HtmlResult GetHtml()
+        {
+            return new HtmlResult("<h2>Привет ASP.NET 5</h2>");
+        }
+        #endregion
     }
     public class Geometry
     {
