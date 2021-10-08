@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MVC_App.Controllers
 {
@@ -146,14 +147,31 @@ namespace MVC_App.Controllers
         }
         #endregion
         #region 9.9
-        public void Index()
+        //public void Index()
+        //{
+        //    string table = "";
+        //    foreach (var header in Request.Headers)
+        //    {
+        //        table += $"<tr><td>{header.Key}</td><td>{header.Value}</td></tr>";
+        //    }
+        //    Response.WriteAsync($"<table>{table}</table>");
+        //}
+        #endregion
+        #region 9.10
+        //private readonly ITimeService _timeService;
+        //public HomeController(ITimeService timeServ)
+        //{
+        //    _timeService = timeServ;
+        //}
+        //public string Index([FromServices] ITimeService timeService)
+        //{
+        //    return timeService.Time;
+        //}
+        public string Index()
         {
-            string table = "";
-            foreach (var header in Request.Headers)
-            {
-                table += $"<tr><td>{header.Key}</td><td>{header.Value}</td></tr>";
-            }
-            Response.WriteAsync($"<table>{table}</table>");
+         //   return _timeService.Time;
+            ITimeService timeService = HttpContext.RequestServices.GetService<ITimeService>();
+            return timeService?.Time;
         }
         #endregion
     }
