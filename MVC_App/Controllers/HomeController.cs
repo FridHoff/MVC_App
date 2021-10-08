@@ -19,12 +19,12 @@ namespace MVC_App.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
-        {
-            //return View();
-            return RedirectToRoute("default", new { controller = "Home", action = "Area", height = 2, altitude = 20 });
-            //return RedirectToAction("Area", "Home", new { altitude = 10, height = 3 });
-        }
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //    //return RedirectToRoute("default", new { controller = "Home", action = "Area", height = 2, altitude = 20 });
+        //    //return RedirectToAction("Area", "Home", new { altitude = 10, height = 3 });
+        //}
 
         public IActionResult Privacy()
         {
@@ -90,6 +90,19 @@ namespace MVC_App.Controllers
             return Json(user);
         }
         #endregion
+        #region 9.6
+        public IActionResult Index(string str)
+        {
+            int num;
+            if (String.IsNullOrEmpty(str))
+                return BadRequest("Не указаны параметры запроса");
+            if (!Int32.TryParse(str, out num))
+                return BadRequest("Указаны некорректные параметры запроса");
+            else if (num < 18)
+                return Unauthorized(new Error { Message = "параметр age содержит недействительное значение" });
+            return View();
+        }
+        #endregion
     }
     public class Geometry
     {
@@ -105,5 +118,9 @@ namespace MVC_App.Controllers
     {
         public string Name { get; set; }
         public int Age { get; set; }
+    }
+    class Error
+    {
+        public string Message { get; set; }
     }
 }
