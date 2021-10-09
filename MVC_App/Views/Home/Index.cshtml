@@ -1,10 +1,11 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    Layout = "~/Views/_Master.cshtml";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    @*<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>*@
 </div>
 <form method="post" action="~/Home/Area">
     <label>Высота:</label><br />
@@ -13,3 +14,6 @@
     <input type="number" name="altitude" /><br />
     <input type="submit" value="Отправить" />
 </form>
+@section Footer {
+    Все права защищены. Site Corp. 2016.
+}
