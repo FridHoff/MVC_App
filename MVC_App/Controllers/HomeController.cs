@@ -22,12 +22,14 @@ namespace MVC_App.Controllers
         {
             _logger = logger;
         }
-
+        public bool isAuth=false;
         public IActionResult Index()
         {
-            return View();
-            //return RedirectToRoute("default", new { controller = "Home", action = "Area", height = 2, altitude = 20 });
-            //return RedirectToAction("Area", "Home", new { altitude = 10, height = 3 });
+            if (isAuth)
+                return View();
+            else
+                return RedirectToAction("Login");
+            //return RedirectToRoute("default", new { controller = "Home", action = "Area", height = 2, altitude = 20 });            
         }
 
         public IActionResult Privacy()
@@ -177,6 +179,26 @@ namespace MVC_App.Controllers
         public ActionResult GetMessage()
         {
             return PartialView("_GetMessage");
+        }
+        #endregion
+        #region 10.8
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Login(string login, string password)
+        {
+            //string authData = $"Login: {login}   Password: {password}";
+            //return Content(authData);
+            if (login == "admin" && password == "1111")
+            {
+                isAuth = true;
+                return RedirectToAction("Index");
+            }
+            else
+                return Content("Неверно указаны имя пользователя или пароль");
         }
         #endregion
     }
