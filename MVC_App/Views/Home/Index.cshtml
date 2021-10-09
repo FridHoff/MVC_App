@@ -14,6 +14,7 @@
     <input type="number" name="altitude" /><br />
     <input type="submit" value="Отправить" />
 </form>
+@{await Html.RenderPartialAsync("_GetMessage", new List<string> { "Lumia 950", "iPhone 6S", "Samsung Galaxy s 6", "LG G 4" });}
 @section Footer {
     Все права защищены. Site Corp. 2016.
 }

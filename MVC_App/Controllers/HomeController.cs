@@ -173,6 +173,12 @@ namespace MVC_App.Controllers
         //    return timeService?.Time;
         //}
         #endregion
+        #region 10.6    
+        public ActionResult GetMessage()
+        {
+            return PartialView("_GetMessage");
+        }
+        #endregion
     }
     public class Geometry
     {
