@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MVC_App.Services;
+using MVC_App.Util;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MVC_App
 {
@@ -24,6 +26,10 @@ namespace MVC_App
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<MvcViewOptions>(options => {
+                options.ViewEngines.Clear();
+                options.ViewEngines.Insert(0, new CustomViewEngine());
+            });
             services.AddTransient<ITimeService, SimpleTimeService>();
             services.AddControllersWithViews();
         }
