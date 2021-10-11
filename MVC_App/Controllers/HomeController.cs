@@ -16,13 +16,28 @@ namespace MVC_App.Controllers
 {
     public class HomeController : HelloBaseController
     {
+
         private readonly ILogger<HomeController> _logger;
 
         private readonly IWebHostEnvironment _appEnvironment;
+        List<Phone> phones;
         public HomeController(ILogger<HomeController> logger, IWebHostEnvironment appEnvironment)
         {
             _logger = logger;
             _appEnvironment = appEnvironment;
+            Company apple = new Company { Id = 1, Name = "Apple", Country = "США" };
+            Company microsoft = new Company { Id = 2, Name = "Samsung", Country = "Республика Корея" };
+            Company google = new Company { Id = 3, Name = "Google", Country = "США" };
+
+            phones = new List<Phone>
+            {
+                new Phone { Id=1, Manufacturer= apple, Name="iPhone X", Price=56000 },
+                new Phone { Id=2, Manufacturer= apple, Name="iPhone XZ", Price=41000 },
+                new Phone { Id=3, Manufacturer= microsoft, Name="Galaxy 9", Price=9000 },
+                new Phone { Id=4, Manufacturer= microsoft, Name="Galaxy 10", Price=40000 },
+                new Phone { Id=5, Manufacturer= google, Name="Pixel 2", Price=30000 },
+                new Phone { Id=6, Manufacturer= google, Name="Pixel XL", Price=50000 }
+            };
         }
         User admin = new User { Login="admin", Password="1111" };
         public IActionResult Index()
@@ -196,6 +211,12 @@ namespace MVC_App.Controllers
             }
             else
                 return Content("Неверно указаны имя пользователя или пароль");
+        }
+        #endregion
+        #region 12.1
+        public IActionResult Phones()
+        {
+            return View(phones);
         }
         #endregion
     }
