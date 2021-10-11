@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MVC_App.Models;
+using MVC_App.ViewModels;
 using ControllersApp.Util;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
@@ -21,6 +22,7 @@ namespace MVC_App.Controllers
 
         private readonly IWebHostEnvironment _appEnvironment;
         List<Phone> phones;
+        List<Company> companies;
         public HomeController(ILogger<HomeController> logger, IWebHostEnvironment appEnvironment)
         {
             _logger = logger;
@@ -28,6 +30,7 @@ namespace MVC_App.Controllers
             Company apple = new Company { Id = 1, Name = "Apple", Country = "США" };
             Company microsoft = new Company { Id = 2, Name = "Samsung", Country = "Республика Корея" };
             Company google = new Company { Id = 3, Name = "Google", Country = "США" };
+            companies = new List<Company> { apple, microsoft, google };
 
             phones = new List<Phone>
             {
@@ -39,7 +42,7 @@ namespace MVC_App.Controllers
                 new Phone { Id=6, Manufacturer= google, Name="Pixel XL", Price=50000 }
             };
         }
-        User admin = new User { Login="admin", Password="1111" };
+        User admin = new User { Login = "admin", Password = "1111" };
         public IActionResult Index()
         {
             if (string.IsNullOrEmpty(admin.Name))
@@ -214,16 +217,35 @@ namespace MVC_App.Controllers
         }
         #endregion
         #region 12.1
-        public IActionResult Phones()
+        //public IActionResult Phones()
+        //{
+        //    return View(phones);
+        //}
+        #endregion
+        #region 12.2
+        public IActionResult Phones(int? companyId)
         {
-            return View(phones);
+            List<CompanyModel> compModels = companies
+                .Select(c => new CompanyModel { Id = c.Id, Name = c.Name })
+                .ToList();
+            // добавляем на первое место
+            compModels.Insert(0, new CompanyModel { Id = 0, Name = "Все" });
+
+            IndexViewModel ivm = new IndexViewModel { Companies = compModels, Phones = phones };
+
+            // если передан id компании, фильтруем список
+            if (companyId != null && companyId > 0)
+                ivm.Phones = phones.Where(p => p.Manufacturer.Id == companyId);
+
+            return View(ivm);
         }
         #endregion
+
     }
     public class Geometry
     {
         public int Altitude { get; set; }
-        public int Height { get; set; } 
+        public int Height { get; set; }
 
         public double GetArea()
         {
@@ -235,7 +257,7 @@ namespace MVC_App.Controllers
         public string Name { get; set; }
         public int Age { get; set; }
         public string Login { get; set; }
-        public string Password { get; set; }   
+        public string Password { get; set; }
     }
     class Error
     {
