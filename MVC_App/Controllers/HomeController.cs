@@ -18,14 +18,16 @@ namespace MVC_App.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IWebHostEnvironment _appEnvironment;
+        public HomeController(ILogger<HomeController> logger, IWebHostEnvironment appEnvironment)
         {
             _logger = logger;
+            _appEnvironment = appEnvironment;
         }
-        public bool isAuth=false;
+        User admin = new User { Login="admin", Password="1111" };
         public IActionResult Index()
         {
-            if (isAuth)
+            if (string.IsNullOrEmpty(admin.Name))
                 return View();
             else
                 return RedirectToAction("Login");
@@ -109,12 +111,7 @@ namespace MVC_App.Controllers
         //    return View();
         //}
         #endregion
-        #region 9.7
-        private readonly IWebHostEnvironment _appEnvironment;
-        //public HomeController(IWebHostEnvironment appEnvironment)
-        //{
-        //    _appEnvironment = appEnvironment;
-        //}
+        #region 9.7        
         public IActionResult GetFile()
         {
             // Путь к файлу
@@ -194,7 +191,7 @@ namespace MVC_App.Controllers
             //return Content(authData);
             if (login == "admin" && password == "1111")
             {
-                isAuth = true;
+                admin.Name = "admin";
                 return RedirectToAction("Index");
             }
             else
@@ -216,6 +213,8 @@ namespace MVC_App.Controllers
     {
         public string Name { get; set; }
         public int Age { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }   
     }
     class Error
     {

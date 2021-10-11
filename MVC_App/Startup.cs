@@ -26,7 +26,8 @@ namespace MVC_App
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<MvcViewOptions>(options => {
+            services.Configure<MvcViewOptions>(options =>
+            {
                 options.ViewEngines.Clear();
                 options.ViewEngines.Insert(0, new CustomViewEngine());
             });
@@ -59,7 +60,11 @@ namespace MVC_App
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Login}/{id?}");
-            });            
+                endpoints.MapAreaControllerRoute(
+                    name: "store_area",
+                    areaName: "store",
+                    pattern: "store/{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }
