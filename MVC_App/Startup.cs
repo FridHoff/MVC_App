@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using MVC_App.Services;
 using MVC_App.Util;
 using Microsoft.AspNetCore.Mvc;
+using MVC_App.Infrastructure;
 
 namespace MVC_App
 {
@@ -32,7 +33,11 @@ namespace MVC_App
                 options.ViewEngines.Insert(0, new CustomViewEngine());
             });
             services.AddTransient<ITimeService, SimpleTimeService>();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(opts =>
+            {
+                opts.ModelBinderProviders.Insert(0, new EventModelBinderProvider());
+                //opts.ModelBinderProviders.Insert(1, new CustomDateTimeModelBinderProvider());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

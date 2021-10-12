@@ -41,11 +41,11 @@ namespace MVC_App.Controllers
                 new Phone { Id=5, Manufacturer= google, Name="Pixel 2", Price=30000 },
                 new Phone { Id=6, Manufacturer= google, Name="Pixel XL", Price=50000 }
             };
-        }
-        User admin = new User { Login = "admin", Password = "1111" };
+        }   
+        public static User admin = new User { Login = "admin", Password = "1111" };
         public IActionResult Index()
         {
-            if (string.IsNullOrEmpty(admin.Name))
+            if (!string.IsNullOrEmpty(admin.Name))
                 return View();
             else
                 return RedirectToAction("Login");
@@ -238,6 +238,24 @@ namespace MVC_App.Controllers
                 ivm.Phones = phones.Where(p => p.Manufacturer.Id == companyId);
 
             return View(ivm);
+        }
+        #endregion
+        #region 12.6
+        static List<Event> events = new List<Event>();
+        public IActionResult Events()
+        {
+            return View(events);
+        }
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Create(Event ev)
+        {
+         //   ev.Id = Guid.NewGuid().ToString();
+            events.Add(ev);
+            return RedirectToAction("Index");
         }
         #endregion
 
